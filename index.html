@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Long Polling</title>
+</head>
+<body>
+    <h1>Long Polling</h1>
+    <div id="data-container"></div>
+    <script>
+        async function getData(lastData) {
+            try {   
+                const result = await fetch(`/getData?lastData=${lastData}`);
+                const response = await result.json();
+                document.getElementById("data-container").innerHTML = response.data;
+                getData(response.data); //as soon as we get response we fire a next request
+            } catch(e) {
+                console.log(e);
+            }
+        }
+        getData();
+    </script>
+</body>
+</html>
